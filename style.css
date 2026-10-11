@@ -1,0 +1,226 @@
+:root {
+  --primary-color: #06b3bc;
+  --text-color: #042d2f;
+  --text-color-lighter: #074c50;
+  --secondary-color: #F78828;
+  --warn-color: #FDD219;
+  --danger-color: #FA5456;
+  --white: #FFFFFF;
+  --off-white: #F1F2F4;
+  --gray: #A1A1A1;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a1a1a1' fill-opacity='0.59' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+header {
+  background-color: var(--primary-color);
+  padding: 48px 0;
+  border-bottom: var(--secondary-color) 6px solid;
+}
+
+/* header link animations! */
+header a {
+  font-size: 1.5rem;
+  color: var(--off-white);
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  /* TRANSITION: color fades smoothly on hover */
+  transition: color 0.3s ease;
+}
+
+/* underline bar that grows out from the center */
+header a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background-color: var(--secondary-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  /* TRANSITION: underline scales in/out */
+  transition: transform 0.3s ease;
+}
+
+header a:hover,
+header a:focus-visible {
+  color: var(--warn-color);
+  /* ANIMATION: link does a quick springy "pop".
+     Scale never drops below 1, so the link never slides out from
+     under the cursor (which would cause hover flicker). */
+  animation: pop 0.5s ease;
+}
+
+header a:hover::after,
+header a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.2) rotate(-3deg); }
+  70%  { transform: scale(1.08) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+/* end header link animations */
+
+/* article link transitions */
+main a {
+  color: var(--danger-color);
+  text-decoration: none;
+  padding: 0 2px;
+  /* a highlight "marker" sits in the background with 0 width... */
+  background-image: linear-gradient(var(--warn-color), var(--warn-color));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 100%;
+  /* ...a thin line underneath shows it is still a link */
+  border-bottom: 2px solid var(--danger-color);
+  /* if the link wraps onto two lines, each line gets its own highlight */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  /* TRANSITION: highlight sweeps across left to right, color changes */
+  transition: background-size 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+main a:hover,
+main a:focus-visible {
+  background-size: 100% 100%;
+  color: var(--text-color);
+  border-bottom-color: var(--secondary-color);
+}
+/* end article link transitions */
+
+main > article, nav{
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+}
+
+nav > a:not(:first-of-type){
+  margin-left: 24px;
+}
+
+nav > a.logo {
+  margin-right: auto;
+  text-transform: uppercase;
+}
+
+main > section, main > article {
+  margin-bottom: 96px;
+  box-shadow: 4px 4px 10px var(--gray);
+  background-color: var(--white);
+}
+
+main > section.hero {
+  height: 300px;
+  background-image: url(https://picsum.photos/1920/1000);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+
+section.hero > .call-to-action {
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: var(--white) 0px 0px 10px, var(--white) 0px 0px 20px, var(--gray) 2px 2px 2px;
+  padding: 0 48px;
+  margin: 0;
+}
+
+section.hero > button {
+  background-color: var(--secondary-color);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 900;
+  color: var(--text-color);
+  /* TRANSITION: button lifts and changes color on hover */
+  transition: transform 0.25s ease, background-color 0.25s ease,
+              color 0.25s ease, box-shadow 0.25s ease;
+}
+
+section.hero > button:hover,
+section.hero > button:focus-visible {
+  background-color: var(--primary-color);
+  color: var(--white);
+  /* grow only (no translateY) so the button stays under the cursor */
+  transform: scale(1.1);
+  /* ANIMATION: glowing ring pulses outward while hovered */
+  animation: pulse-ring 1.2s ease-out infinite;
+}
+
+section.hero > button:active {
+  transform: scale(1.03);
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(6, 179, 188, 0.7); }
+  70%  { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 0 16px rgba(6, 179, 188, 0); }
+  100% { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(6, 179, 188, 0); }
+}
+
+main article {
+  padding: 48px 96px;
+}
+
+main p {
+  line-height: 1.75;
+  margin-bottom: 48px;
+}
+
+main > article img {
+  float: left;
+  width: 300px;
+  height: auto;
+  margin-right: 24px;
+  margin-bottom: 6px;
+}
+
+footer {
+  margin-top: auto;
+  background-color: var(--gray);
+  text-align: center;
+  text-transform: uppercase;
+  padding: 24px 0;
+  color: var(--off-white);
+}
+
+/* respect users who have asked their OS for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
